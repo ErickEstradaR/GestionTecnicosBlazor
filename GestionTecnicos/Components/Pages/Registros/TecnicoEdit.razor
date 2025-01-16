@@ -1,0 +1,84 @@
+@page "/Tecnico/Edit/{TecnicoId:int}"
+
+@inject TecnicosService tecnicosService
+
+@inject NavigationManager navigationManager
+
+
+<PageTitle>Edit</PageTitle>
+<EditForm Model="Tecnicos" OnValidSubmit="Modificar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Editar Tecnico</h5>
+            </div>
+
+            <div class="card-body">
+                @* CobroId *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>TecnicoId</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Tecnicos.TecnicoId" readonly></InputNumber>
+                </div>
+
+                @* Fecha *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>Nombres</strong></label>
+                    <InputText class="form-control" @bind-Value="Tecnicos.Nombres"></InputText>
+                </div>
+
+                @* Deudor *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>Salario por hora</strong></label>
+                    <input class="form-control" value="@Tecnicos.SalarioHora" readonly/>                   
+                </div>
+
+                
+                    <hr />
+                </div>
+               
+            </div>
+
+            @* footer *@
+            <div class="card-footer text-center mt-2">
+                <a href="/Cobro/Index" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
+                <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
+            </div>
+        </div>
+   
+</EditForm>
+
+
+@code {
+    
+    @*Parametro para el índice de la página*@
+    [Parameter] 
+    public int TecnicoId { get; set; }
+
+    Tecnicos Tecnicos { get; set; } = new Tecnicos();
+
+    @*Buscar el técnico*@
+    protected override async Task OnInitializedAsync() {
+        Tecnicos = await tecnicosService.Buscar(TecnicoId);
+    }
+
+    
+    @*Modificar técnico*@
+    public async Task Modificar()
+    {
+        var paso = await tecnicosService.Guardar(Tecnicos);
+
+        if (paso)
+        {
+            navigationManager.NavigateTo("/Tecnico");
+        }
+    }
+
+
+
+}
+    
+    
+
+  

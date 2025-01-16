@@ -1,11 +1,19 @@
 is_global = true
 build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = GestionTecnicos
 build_property.RootNamespace = GestionTecnicos
@@ -24,10 +32,6 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -36,8 +40,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9XZWF0aGVyLnJhem9y
+[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Registros/TecnicoCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9SZWdpc3Ryb3MvVGVjbmljb0NyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Registros/TecnicoDelete.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9SZWdpc3Ryb3MvVGVjbmljb0RlbGV0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Registros/TecnicoEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9SZWdpc3Ryb3MvVGVjbmljb0VkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Pages/Registros/TecnicoIndex.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9SZWdpc3Ryb3MvVGVjbmljb0luZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/erick/RiderProjects/GestionTecnicos/GestionTecnicos/Components/Routes.razor]

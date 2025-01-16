@@ -1,0 +1,65 @@
+@page "/Tecnico/Delete/{TecnicoId:int}"
+@inject TecnicosService TecnicosService
+@inject NavigationManager navigationManager
+
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+       
+        <div class="card-header text-center">
+            <h5><strong>Datos del técnico</strong></h5>
+        </div>
+        @*body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h5><strong>Eliminar tecnico</strong></h5>
+            </div>
+            <ul class="mt-4">
+                <li><strong>TecnicoId: </strong>@tecnico.TecnicoId</li>
+                <li><strong>Nombres: </strong>@tecnico.Nombres</li>
+                <li><strong>Salario por Hora: </strong>@tecnico.SalarioHora</li>
+              
+            </ul>
+            
+        </div>
+        
+        
+        @*Footer*@
+        <div class="card-footer text-center">
+            <a href="/Tecnico/Index" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    @*Parametro para el índice de la página*@
+    [Parameter] public int TecnicoId { get; set; }
+
+    public Tecnicos tecnico = new Tecnicos();
+    
+    @*Método para buscar técnicos*@
+    protected override async Task OnInitializedAsync()
+    {
+        tecnico = await TecnicosService.Buscar(TecnicoId);
+        
+    }
+
+    @*Eliminar técnico*@
+    public async Task Eliminar()
+    {
+        var eliminado = await TecnicosService.Eliminar(tecnico.TecnicoId);
+
+        if (eliminado==true)
+        {
+            navigationManager.NavigateTo("/Tecnico");
+        }
+       
+
+    }
+
+}

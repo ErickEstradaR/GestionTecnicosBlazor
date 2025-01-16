@@ -1,0 +1,100 @@
+@page "/Tecnico"
+@inject TecnicosService TecnicosService
+@rendermode InteractiveServer
+
+
+
+<PageTitle>Registro de técnicos</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card header">
+        </div>
+        <div class="card-body">
+            <h5 class="text-center">Consulta de técnicos</h5>
+            <div class="row">
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="@Filtro">
+                        <option value="" selected disabled>Elija una opción</option>
+                        <option value="TecnicoId">TecnicoId</option>
+                        <option value="Nombres">Nombres</option>
+                    </InputSelect>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                        <a href="/Tecnico/Create" class="btn btn-success">
+                            <span class="bi bi-plus-square"></span> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead class="table table-striped text-black">
+                    <tr>
+                        <th>TecnicoId</th>
+                        <th>Nombres</th>
+                        <th>Sueldo por Hora</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tecnico in ListaTecnicos)
+                    {
+                        <tr>
+                            <td>@tecnico.TecnicoId</td>
+                            <td>@tecnico.Nombres</td>
+                            <td>@tecnico.SalarioHora</td>
+                            <td class="text-center">
+                                <a class="btn btn-outline-primary bi bi-pencil-square" href="/Tecnico/Edit/@tecnico.TecnicoId"></a>
+                            </td>
+                            <td><a class="btn btn-outline-danger bi bi-trash" href="/Tecnico/Delete/@tecnico.TecnicoId"></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    @*Lista de técnicos*@
+    public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
+    
+    @*Filtros*@
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    
+    @*Listar todos los técnicos*@
+    protected override async Task OnInitializedAsync()
+    {
+
+        ListaTecnicos = await TecnicosService.Listar(c => c.TecnicoId > 0);
+    }
+
+    @*Buscar técnicos según el filtro*@
+    private async Task Buscar()
+    {
+        if (Filtro == "TecnicoId")
+        {
+            if (int.TryParse(ValorFiltro, out int tecnicoId))
+            {
+                ListaTecnicos = await TecnicosService
+                    .Listar(t => t.TecnicoId == tecnicoId);
+            }
+
+            
+        }
+        else if (ValorFiltro.Trim() != "" && Filtro == "Nombres")
+        {
+            ListaTecnicos = await TecnicosService
+                .Listar(t => t.Nombres.ToLower()
+                    .Contains(ValorFiltro.ToLower()));
+        }
+    }
+
+}

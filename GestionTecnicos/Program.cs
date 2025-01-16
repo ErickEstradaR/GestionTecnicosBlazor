@@ -1,13 +1,29 @@
 using GestionTecnicos.Components;
+using GestionTecnicos.DAL;
+using GestionTecnicos.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddConsole().SetMinimumLevel(LogLevel.Debug);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddScoped<TecnicosService>();
+var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
+builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlServer(ConStr));
 var app = builder.Build();
 
+app.UseRouting();
+
+
+
+
+
+
+
+
+// Configure the HTTP request pipeline.
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

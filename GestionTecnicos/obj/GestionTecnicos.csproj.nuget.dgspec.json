@@ -36,12 +36,48 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
+          "auditMode": "all"
         }
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.AspNetCore.Components.Forms": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.AspNetCore.Components.Web": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.AspNetCore.Razor": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "Microsoft.EntityFrameWorkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.sqlserver": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Users/erick/.dotnet/sdk/9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

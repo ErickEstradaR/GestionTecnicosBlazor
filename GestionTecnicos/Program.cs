@@ -2,6 +2,7 @@ using GestionTecnicos.Components;
 using GestionTecnicos.DAL;
 using GestionTecnicos.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole().SetMinimumLevel(LogLevel.Debug);
@@ -17,6 +18,14 @@ var app = builder.Build();
 app.UseRouting();
 
 
+
+//Formato n2
+var culture = new CultureInfo("es-US");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+CultureInfo.CurrentCulture = culture;
+CultureInfo.CurrentUICulture = culture;
 
 
 

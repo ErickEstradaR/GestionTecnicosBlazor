@@ -16,11 +16,12 @@
         <div class="card-body">
             <div class="text-center">
                 <h5><strong>Eliminar tecnico</strong></h5>
+                <h6 class="text-bg-danger">Está seguro de que desea eliminar el técnico?</h6>
             </div>
             <ul class="mt-4">
                 <li><strong>TecnicoId: </strong>@tecnico.TecnicoId</li>
                 <li><strong>Nombres: </strong>@tecnico.Nombres</li>
-                <li><strong>Salario por Hora: </strong>@tecnico.SalarioHora</li>
+                <li><strong>Salario por Hora: </strong>@tecnico.SalarioHora.ToString("N2")</li>
               
             </ul>
             
@@ -29,7 +30,7 @@
         
         @*Footer*@
         <div class="card-footer text-center">
-            <a href="/Tecnico/Index" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <a href="/Tecnico" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
             <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
         </div>
     </div>

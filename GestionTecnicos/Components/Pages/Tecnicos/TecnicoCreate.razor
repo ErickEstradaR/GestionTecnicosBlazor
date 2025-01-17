@@ -1,0 +1,89 @@
+﻿@page "/Tecnico/Create"
+@inject TecnicosService tecnicoService
+@inject NavigationManager navigationManager
+
+<PageTitle>Registro de técnicos</PageTitle>
+
+<EditForm Model="@Tecnico" OnSubmit="Guardar" FormName="prueba">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Registro de técnicos</h5>
+            </div>
+            <div class="card-body">
+                
+                @*TecnicoId*@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>TecnicoId</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly/>
+                </div>
+
+                @*Nombres*@
+                <div class="mb-3">
+                    <label for="nombres">Nombres</label>
+                    <InputText class="form-control" @bind-Value="Tecnico.Nombres"/>
+                    <ValidationMessage For="@(() => Tecnico.Nombres)"/>
+                </div>
+
+                @*SalarioHora*@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Salario x Hora</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.SalarioHora"/>
+                </div>
+            </div>
+
+            @*Footer*@
+            <div class="card-footer mt-2 text-center">
+                <button type="submit" class="btn btn-outline-success" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+                <a href="/Tecnico/" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    
+    @*Instanciar técnico*@
+    private Tecnicos Tecnico { get; set; } = new Tecnicos();
+    
+    
+    @*Limpiar campos.*@
+    public void Nuevo()
+    {
+        this.Tecnico = new Tecnicos();
+    }
+    
+    @*Guardar un técnico*@
+    private async Task Guardar()
+    {
+        
+        if (string.IsNullOrEmpty(Tecnico.Nombres))
+        {
+            Console.WriteLine("El campo Nombres no puede estar vacío.");
+            return;
+        }
+
+        var existe = await tecnicoService.ExisteTecnicoConNombre(Tecnico.Nombres);
+        if (existe)
+        {
+            Console.WriteLine("No pueden haber dos tecnicos con el mismo nombre");
+            return;
+        }
+        
+        var creado = await tecnicoService.Guardar(Tecnico);
+        if (creado)
+        {
+            navigationManager.NavigateTo("/Tecnico");
+        }
+    }
+    
+   
+}

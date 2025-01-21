@@ -4,9 +4,18 @@
 
 <PageTitle>Registro de técnicos</PageTitle>
 
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+    <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
+
 <EditForm Model="@Tecnico" OnSubmit="Guardar" FormName="prueba">
     <DataAnnotationsValidator />
     <ValidationSummary />
+    
+    
 
     <div class="container">
         <div class="card shadow-lg">
@@ -36,6 +45,7 @@
                         <strong>Salario x Hora</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Tecnico.SalarioHora"/>
+                    <ValidationMessage For="@(() => Tecnico.SalarioHora)" />
                 </div>
             </div>
 
@@ -53,7 +63,7 @@
     
     @*Instanciar técnico*@
     private Tecnicos Tecnico { get; set; } = new Tecnicos();
-    
+    public string MensajeError { get; set; } = string.Empty;
     
     @*Limpiar campos.*@
     public void Nuevo()
@@ -67,14 +77,14 @@
         
         if (string.IsNullOrEmpty(Tecnico.Nombres))
         {
-            Console.WriteLine("El campo Nombres no puede estar vacío.");
+            MensajeError = "El campo Nombres no puede estar vacío.";
             return;
         }
 
         var existe = await tecnicoService.ExisteTecnicoConNombre(Tecnico.Nombres);
         if (existe)
         {
-            Console.WriteLine("No pueden haber dos tecnicos con el mismo nombre");
+            MensajeError = "No pueden haber dos tecnicos con el mismo nombre";
             return;
         }
         

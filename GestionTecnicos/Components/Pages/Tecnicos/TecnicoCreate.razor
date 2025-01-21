@@ -45,6 +45,7 @@
                         <strong>Salario x Hora</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Tecnico.SalarioHora"/>
+                    <ValidationMessage For="@(() => Tecnico.SalarioHora)" />
                 </div>
             </div>
 

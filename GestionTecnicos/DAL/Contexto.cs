@@ -7,12 +7,12 @@ public class Contexto : DbContext
 {
     public Contexto(DbContextOptions<Contexto> options) : base(options) { }
     public DbSet<Tecnicos> Tecnicos { get; set; }
+    public DbSet<Clientes> Clientes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Add any additional configurations if needed
+        
         modelBuilder.Entity<Tecnicos>().HasKey(t => t.TecnicoId);
     }
 

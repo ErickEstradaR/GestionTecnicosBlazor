@@ -7,6 +7,10 @@ public class Clientes
 {
     [Key]
     public int ClienteId { get; set; }
+    
+    public int TecnicoId { get; set; }
+    
+    public DateTime Fecha { get; set; } = DateTime.Now;
 
     [Required(ErrorMessage = "El campo Nombres es requerido.")]
     public string Nombres { get; set; } = null!;
@@ -15,6 +19,7 @@ public class Clientes
     public string Direccion { get; set; } = null!;
     
     [Required(ErrorMessage = "El campo Rnc es requerido.")]
+    [StringLength(11,MinimumLength = 9)]
     public string Rnc { get; set; } = null!;
     
     [Range(1, double.MaxValue, ErrorMessage = "El monto no puede ser menor a 1")]

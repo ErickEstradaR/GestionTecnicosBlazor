@@ -6,13 +6,21 @@
 
 
 <PageTitle>Edit</PageTitle>
+
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+        <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
+
 <EditForm Model="Tecnicos" OnValidSubmit="Modificar">
     <DataAnnotationsValidator />
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center">
-                <h5 class="card-title">Editar Tecnico</h5>
+                <h5 class="card-title">Editar T&eacute;cnico</h5>
             </div>
 
             <div class="card-body">
@@ -26,25 +34,25 @@
                 <div class="mb-3">
                     <label class="form-label"><strong>Nombres</strong></label>
                     <InputText class="form-control" @bind-Value="Tecnicos.Nombres"></InputText>
+                    <ValidationMessage For="@(() => Tecnicos.Nombres)"/>
                 </div>
 
                 @* Deudor *@
                 <div class="mb-3">
                     <label class="form-label"><strong>Salario por hora</strong></label>
-                    <InputNumber class="form-control" @bind-Value="@Tecnicos.SalarioHora"/>                  
+                    <InputNumber class="form-control" @bind-Value="@Tecnicos.SalarioHora"/>
+                    <ValidationMessage For="@(() => Tecnicos.SalarioHora)" />
                 </div>
 
                 
                     <hr />
                 </div>
-               
-            </div>
-
             @* footer *@
             <div class="card-footer text-center mt-2">
                 <a href="/Tecnico" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
                 <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
             </div>
+        </div>
         </div>
    
 </EditForm>
@@ -55,6 +63,7 @@
     @*Parametro para el índice de la página*@
     [Parameter] 
     public int TecnicoId { get; set; }
+    public string MensajeError { get; set; } = string.Empty;
 
     Tecnicos Tecnicos { get; set; } = new Tecnicos();
 

@@ -1,0 +1,60 @@
+@page "/Cliente/Delete/{ClienteId:int}"
+@inject ClientesService ClientesService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5><strong>Datos del cliente</strong></h5>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h5><strong>Eliminar Cliente</strong></h5>
+                <h6 class="text-bg-danger">Está seguro de que desea eliminar el cliente?</h6>
+            </div>
+            <ul class="mt-4">
+                <li><strong>ClienteId: </strong>@cliente.ClienteId</li>
+                <li><strong>Nombres: </strong>@cliente.Nombres</li>
+                <li><strong>Direcci&oacute;n: </strong>@cliente.Direccion</li>
+                <li><strong>Fecha de Ingreso: </strong>@cliente.Fecha</li>
+                <li><strong>Rnc: </strong>@cliente.Rnc</li>
+                <li><strong>L&iacute;mite de Credito: </strong>@cliente.LimiteCredito.ToString("N2")</li>
+                <li><strong>T&eacute;cnico Encargado: </strong>@cliente.Tecnico?.Nombres</li>
+            </ul>
+        </div>
+        @*Footer*@
+        <div class="card-footer text-center">
+            <a href="/Cliente" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    @*Parametro para el índice de la página*@
+    [Parameter] public int ClienteId { get; set; }
+    public Clientes cliente { get; set; } = new Clientes();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        cliente = await ClientesService.Buscar(ClienteId);
+        
+    }
+    
+    @*Eliminar técnico*@
+    public async Task Eliminar()
+    {
+        var eliminado = await ClientesService.Eliminar(cliente.ClienteId);
+
+        if (eliminado==true)
+        {
+            NavigationManager.NavigateTo("/Tecnico");
+        }
+       
+
+    }
+}

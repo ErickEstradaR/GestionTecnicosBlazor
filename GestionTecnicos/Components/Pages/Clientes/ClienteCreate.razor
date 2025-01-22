@@ -2,6 +2,7 @@
 @inject ClientesService ClientesService
 @inject NavigationManager navigationManager
 @inject TecnicosService TecnicosService
+@rendermode InteractiveServer
 
 
 <PageTitle>Registro de clientes</PageTitle>
@@ -26,7 +27,7 @@
 
                 @*Nombres*@
                 <div class="mb-3">
-                    <label for="nombres">Nombres</label>
+                    <label class="form-label"><strong>Nombres</strong></label>
                     <InputText class="form-control" @bind-Value="Cliente.Nombres"/>
                     <ValidationMessage For="@(() => Cliente.Nombres)"/>
                 </div>
@@ -37,7 +38,14 @@
                         <strong>Direcci&oacute;n</strong>
                     </label>
                     <InputText class="form-control" @bind-Value="Cliente.Direccion"/>
-                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Fecha de Ingreso</strong>
+                    </label>
+                    <InputDate class="form-control" @bind-Value="Cliente.Fecha" readonly/>
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">
@@ -48,7 +56,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">
-                        <strong>Limite crédito</strong>
+                        <strong>L&iacute;mite cr&eacute;dito</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito"/>
                 </div>
@@ -59,8 +67,8 @@
                     <label class="form-select">
                         <strong>T&eacute;cnico encargado</strong>
                     </label>
-                    <InputSelect class="form-control form-select" @bind-Value ="@Tecnico.TecnicoId">
-                        <option value="">Seleccione un T&eacute;cnico</option>
+                    <InputSelect class="form-control form-select" @bind-Value ="@Cliente.TecnicoId">
+                        <option value="0" selected disabled>Seleccione un T&eacute;cnico</option>
                         @foreach (var tecnico in ListaTecnicos)
                         {
                             <option value="@tecnico.TecnicoId">@tecnico.Nombres</option>
@@ -73,7 +81,7 @@
                 <div class="card-footer mt-2 text-center">
                     <button type="submit" class="btn btn-outline-success" @onclick="Nuevo">Nuevo</button>
                     <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
-                    <a href="/Tecnico/" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+                    <a href="/Cliente" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
                 </div>
             </div>
             </div>
@@ -91,7 +99,6 @@
     public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
     protected override async Task OnInitializedAsync()
     {
-
         ListaTecnicos = await TecnicosService.Listar(c => c.TecnicoId > 0);
     }
     

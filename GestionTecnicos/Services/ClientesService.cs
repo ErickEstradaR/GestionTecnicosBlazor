@@ -31,7 +31,7 @@ public class ClientesService (IDbContextFactory<Contexto> DbFactory)
    public async Task<List<Clientes>> Listar(Expression<Func<Clientes, bool>> Criterio)
    {
        await using var Contexto = await DbFactory.CreateDbContextAsync();
-       return await Contexto.Clientes.Where(Criterio).AsNoTracking().ToListAsync();
+       return await Contexto.Clientes.Where(Criterio).AsNoTracking().Include(c=>c.Tecnico).ToListAsync();
    }
     
    private async Task<Clientes?> Buscar(int ClienteId)

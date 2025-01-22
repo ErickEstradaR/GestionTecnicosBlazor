@@ -14,6 +14,15 @@ public class TecnicosService (IDbContextFactory<Contexto> DbFactory)
         return await Contexto.Tecnicos.AnyAsync(t => t.TecnicoId == TecnicoId);
     }
 
+    public async Task<bool> ExisteTecnicoConNombre(string nombre)
+    {
+     
+        await using var Contexto = await DbFactory.CreateDbContextAsync();
+        return await Contexto.Tecnicos
+            .AnyAsync(t => t.Nombres.ToLower() ==
+                           nombre.ToLower());
+    }
+    
     public async Task<bool> Insertar(Tecnicos tecnico)
     {
         await using var Contexto  = await DbFactory.CreateDbContextAsync();
@@ -58,6 +67,4 @@ public class TecnicosService (IDbContextFactory<Contexto> DbFactory)
         await using var Contexto = await DbFactory.CreateDbContextAsync();
         return await Contexto.Tecnicos.Where(criterio).AsNoTracking().ToListAsync();
     }
-    
-    
 }

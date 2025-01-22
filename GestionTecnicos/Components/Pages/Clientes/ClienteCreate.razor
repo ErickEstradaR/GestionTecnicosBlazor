@@ -6,6 +6,12 @@
 
 
 <PageTitle>Registro de clientes</PageTitle>
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+    <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
 <EditForm Model="Cliente" OnSubmit="Guardar" FormName="Cliente">
     <DataAnnotationsValidator/>
     <div class="container">
@@ -101,6 +107,8 @@
     {
         ListaTecnicos = await TecnicosService.Listar(c => c.TecnicoId > 0);
     }
+
+    public string MensajeError { get; set; } = string.Empty;
     
     
     @*Limpiar campos.*@
@@ -112,6 +120,17 @@
     private async Task Guardar()
     {
 
+        if (await ValidarNombre())
+        {
+            MensajeError = "Ya existe un cliente con ese nombre";
+            return;
+        }
+        if (await ValidarRnc())
+        {
+            MensajeError = "Ya existe un cliente con ese Rnc.";
+            return;
+        }
+        
         if (string.IsNullOrEmpty(Cliente.Nombres))
         {
             Console.WriteLine("El campo Nombres no puede estar vacío.");
@@ -123,5 +142,18 @@
         {
             navigationManager.NavigateTo("/Cliente");
         }
+    }
+    
+    public async Task<bool> ValidarNombre()
+    {
+        var existe = await ClientesService.ExisteNombre(Cliente.ClienteId, Cliente.Nombres);
+        return existe;
+    }
+
+    public async Task<bool> ValidarRnc()
+    {
+        var existe=
+            await ClientesService.ExisteRnc(Cliente.ClienteId, Cliente.Rnc);
+        return existe;
     }
 }

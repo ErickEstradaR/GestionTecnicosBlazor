@@ -1,0 +1,90 @@
+@page "/Cliente/Edit/{ClienteId:int}"
+@inject ClientesService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+
+<PageTitle>Edit</PageTitle>
+
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+        <div class="alert alert-danger">@MensajeError</div>
+    }a
+</div>
+
+<EditForm Model="Cliente" OnValidSubmit="Modificar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">Editar Cliente</h5>
+            </div>
+
+            <div class="card-body">
+                @* ClienteId *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>ClienteId</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.ClienteId" readonly></InputNumber>
+                </div>
+
+                @* Nombres *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>Nombres</strong></label>
+                    <InputText class="form-control" @bind-Value="Cliente.Nombres"></InputText>
+                    <ValidationMessage For="@(() => Cliente.Nombres)"/>
+                </div>
+
+                @* Dirección *@
+                <div class="mb-3">
+                    <label class="form-label"><strong>Cliente</strong></label>
+                    <InputNumber class="form-control" @bind-Value="@Cliente.Direccion"/>
+                    <ValidationMessage For="@(() => Cliente.Direccion)" />
+                </div>
+
+                
+                    <hr />
+                </div>
+            @* footer *@
+            <div class="card-footer text-center mt-2">
+                <a href="/Cliente" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
+                <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
+            </div>
+        </div>
+        </div>
+   
+</EditForm>
+
+
+@code {
+    
+    @*Parametro para el índice de la página*@
+    [Parameter] 
+    public int ClienteId { get; set; }
+    public string MensajeError { get; set; } = string.Empty;
+
+    Clientes Cliente { get; set; } = new Clientes();
+
+    @*Buscar el técnico*@
+    protected override async Task OnInitializedAsync() {
+        Cliente = await ClientesService.Buscar(ClienteId);
+    }
+
+    
+    @*Modificar Cliente*@
+    public async Task Modificar()
+    {
+        var paso = await ClientesService.Guardar(Cliente);
+
+        if (paso)
+        {
+            navigationManager.NavigateTo("/Cliente");
+        }
+    }
+    
+}
+    
+    
+
+  

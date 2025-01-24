@@ -21,7 +21,10 @@
                 </div>
                 <div class="col-4">
                     <div class="input-group">
-                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
+                        </div>
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar"/>
                         <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
                         <a href="/Tecnico/Create" class="btn btn-success">
                             <span class="bi bi-plus-square"></span> Crear
@@ -95,6 +98,14 @@
                 .Listar(t => t.Nombres.ToLower()
                     .Contains(ValorFiltro.ToLower()));
         }
+    }
+    
+    @*Metodo Restablecer para restablecer filtros y clientes*@
+    private async Task Restablecer()
+    {
+        ListaTecnicos = await TecnicosService.Listar(t=>t.TecnicoId>0);
+        Filtro = string.Empty;
+        ValorFiltro = string.Empty;
     }
 
 }

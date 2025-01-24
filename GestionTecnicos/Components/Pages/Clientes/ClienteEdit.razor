@@ -53,13 +53,14 @@
                     </label>
                     <InputDate class="form-control" @bind-Value="Cliente.Fecha" readonly/>
                 </div>
-                
+
                 @*Rnc*@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>RNC</strong>
                     </label>
                     <InputText class="form-control" @bind-Value="Cliente.Rnc"/>
+                    <ValidationMessage For="@(()=> Cliente.Rnc)"/>
                 </div>
                 
                 @*Limite de Credito*@
@@ -68,6 +69,7 @@
                         <strong>L&iacute;mite cr&eacute;dito</strong>
                     </label>
                     <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito"/>
+                    <ValidationMessage For="@(()=>Cliente.LimiteCredito)"/>
                 </div>
 
 
@@ -77,7 +79,7 @@
                         <strong>T&eacute;cnico encargado</strong>
                     </label>
                     <InputSelect class="form-control form-select" @bind-Value ="@Cliente.TecnicoId">
-                        <option value="" selected disabled>Seleccione un T&eacute;cnico</option>
+                        <option value="0" selected disabled>Seleccione un T&eacute;cnico</option>
                         @foreach (var tecnico in ListaTecnicos)
                         {
                         <option value="@tecnico.TecnicoId">@tecnico.Nombres</option>

@@ -12,6 +12,6 @@ public class Tecnicos
     [StringLength(50, ErrorMessage = "El nombre no puede exceder los 50 caracteres.")]
     public string Nombres { get; set; } = string.Empty;
 
-    
+    [Required(ErrorMessage = "Este campo es requerido")]
     public double SalarioHora { get; set; }
 }

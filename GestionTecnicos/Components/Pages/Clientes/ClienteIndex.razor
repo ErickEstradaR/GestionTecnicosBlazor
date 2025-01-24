@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-3">
                     <InputSelect class="form-select" @bind-Value="@Filtro">
-                        <option value="" selected disabled>Elija una opción</option>
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
                         <option value="ClienteId">ClienteId</option>
                         <option value="Nombres">Nombres</option>
                     </InputSelect>
@@ -36,7 +36,7 @@
                 <tr>
                     <th>ClienteId</th>
                     <th>Nombres</th>
-                    <th>Tecnico Encargado</th>
+                    <th>T&eacute;cnico Encargado</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -47,7 +47,7 @@
                 <tr>
                     <td>@cliente.ClienteId</td>
                     <td>@cliente.Nombres</td>
-                    <td>@cliente.Tecnico?.Nombres</td>
+                    <td>@cliente.Tecnico.Nombres</td>
                     <td class="text-center">
                         <a class="btn btn-outline-primary bi bi-pencil-square" href="/Cliente/Edit/@cliente.ClienteId"></a>
                     </td>

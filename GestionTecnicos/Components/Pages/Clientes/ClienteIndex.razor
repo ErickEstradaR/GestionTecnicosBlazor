@@ -53,7 +53,7 @@
                         <td>@cliente.Nombres</td>
                         <td>@cliente.Tecnico.Nombres</td>
                         <td>@cliente.Direccion</td>
-                        <td>@cliente.LimiteCredito</td>
+                        <td>@cliente.LimiteCredito.ToString("N2")</td>
                         <td>@cliente.Rnc</td>
                         <td class="text-center">
                             <a class="btn btn-outline-primary bi bi-pencil-square" href="/Cliente/Edit/@cliente.ClienteId"></a>

@@ -128,12 +128,7 @@
     MensajeError = "Ya existe un cliente con ese Rnc.";
     return;
     }
-
-    if (string.IsNullOrEmpty(Cliente.Nombres))
-    {
-    Console.WriteLine("El campo Nombres no puede estar vacío.");
-    return;
-    }
+    
 
     var creado = await ClientesService.Guardar(Cliente);
     if (creado)

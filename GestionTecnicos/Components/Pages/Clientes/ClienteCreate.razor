@@ -1,0 +1,157 @@
+@page "/Cliente/Create"
+@inject ClientesService ClientesService
+@inject NavigationManager navigationManager
+@inject TecnicosService TecnicosService
+@rendermode InteractiveServer
+
+
+<PageTitle>Registro de clientes</PageTitle>
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+    <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
+<EditForm Model="Cliente" OnSubmit="Guardar" FormName="Cliente">
+    <DataAnnotationsValidator/>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center">
+                <h5 class="card-title">
+                    Registro de clientes
+                </h5>
+            </div>
+            <div class="card-body">
+
+                @*ClienteId*@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>ClienteId</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.ClienteId" readonly/>
+                </div>
+
+                @*Nombres*@
+                <div class="mb-3">
+                    <label class="form-label"><strong>Nombres</strong></label>
+                    <InputText class="form-control" @bind-Value="Cliente.Nombres"/>
+                    <ValidationMessage For="@(() => Cliente.Nombres)"/>
+                </div>
+
+                @*Dirección*@
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Direcci&oacute;n</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.Direccion"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Fecha de Ingreso</strong>
+                    </label>
+                    <InputDate class="form-control" @bind-Value="Cliente.Fecha" readonly/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>RNC</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Cliente.Rnc"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>L&iacute;mite cr&eacute;dito</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.LimiteCredito"/>
+                </div>
+                
+                
+                
+                <div class="mb-3">
+                    <label>
+                        <strong>T&eacute;cnico encargado</strong>
+                    </label>
+                    <InputSelect class="form-control form-select" @bind-Value ="@Cliente.TecnicoId">
+                        <option value="0" selected disabled>Seleccione un T&eacute;cnico</option>
+                        @foreach (var tecnico in ListaTecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.Nombres</option>
+                        }
+                    </InputSelect>
+                    
+                </div>
+
+                @*Footer*@
+                <div class="card-footer mt-2 text-center">
+                    <button type="submit" class="btn btn-outline-success" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+                    <a href="/Cliente" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+                </div>
+            </div>
+            </div>
+        </div>
+</EditForm>
+
+@code
+{
+    
+    @*Instanciar Cliente*@
+    private Clientes Cliente { get; set; } = new Clientes();
+    @*Lista de técnicos*@
+    public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
+    protected override async Task OnInitializedAsync()
+    {
+        ListaTecnicos = await TecnicosService.Listar(c => c.TecnicoId > 0);
+    }
+
+    public string MensajeError { get; set; } = string.Empty;
+    
+    
+    @*Limpiar campos.*@
+    public void Nuevo()
+    {
+        this.Cliente = new Clientes();
+    }
+    
+    private async Task Guardar()
+    {
+
+        if (await ValidarNombre())
+        {
+            MensajeError = "Ya existe un cliente con ese nombre";
+            return;
+        }
+        if (await ValidarRnc())
+        {
+            MensajeError = "Ya existe un cliente con ese Rnc.";
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(Cliente.Nombres))
+        {
+            Console.WriteLine("El campo Nombres no puede estar vacío.");
+            return;
+        }
+
+        var creado = await ClientesService.Guardar(Cliente);
+        if (creado)
+        {
+            navigationManager.NavigateTo("/Cliente");
+        }
+    }
+    
+    public async Task<bool> ValidarNombre()
+    {
+        var existe = await ClientesService.ExisteNombre(Cliente.ClienteId, Cliente.Nombres);
+        return existe;
+    }
+
+    public async Task<bool> ValidarRnc()
+    {
+        var existe=
+            await ClientesService.ExisteRnc(Cliente.ClienteId, Cliente.Rnc);
+        return existe;
+    }
+}

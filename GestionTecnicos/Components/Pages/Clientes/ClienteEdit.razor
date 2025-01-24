@@ -1,5 +1,5 @@
-@page "/Tecnico/Edit/{TecnicoId:int}"
-@inject TecnicosService tecnicosService
+@page "/Cliente/Edit/{ClienteId:int}"
+@inject ClientesService
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
@@ -10,37 +10,37 @@
     @if (!string.IsNullOrEmpty(MensajeError))
     {
         <div class="alert alert-danger">@MensajeError</div>
-    }
+    }a
 </div>
 
-<EditForm Model="Tecnicos" OnValidSubmit="Modificar">
+<EditForm Model="Cliente" OnValidSubmit="Modificar">
     <DataAnnotationsValidator />
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center">
-                <h5 class="card-title">Editar T&eacute;cnico</h5>
+                <h5 class="card-title">Editar Cliente</h5>
             </div>
 
             <div class="card-body">
-                @* CobroId *@
+                @* ClienteId *@
                 <div class="mb-3">
-                    <label class="form-label"><strong>TecnicoId</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Tecnicos.TecnicoId" readonly></InputNumber>
+                    <label class="form-label"><strong>ClienteId</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Cliente.ClienteId" readonly></InputNumber>
                 </div>
 
-                @* Fecha *@
+                @* Nombres *@
                 <div class="mb-3">
                     <label class="form-label"><strong>Nombres</strong></label>
-                    <InputText class="form-control" @bind-Value="Tecnicos.Nombres"></InputText>
-                    <ValidationMessage For="@(() => Tecnicos.Nombres)"/>
+                    <InputText class="form-control" @bind-Value="Cliente.Nombres"></InputText>
+                    <ValidationMessage For="@(() => Cliente.Nombres)"/>
                 </div>
 
-                @* Deudor *@
+                @* Dirección *@
                 <div class="mb-3">
-                    <label class="form-label"><strong>Salario por hora</strong></label>
-                    <InputNumber class="form-control" @bind-Value="@Tecnicos.SalarioHora"/>
-                    <ValidationMessage For="@(() => Tecnicos.SalarioHora)" />
+                    <label class="form-label"><strong>Cliente</strong></label>
+                    <InputNumber class="form-control" @bind-Value="@Cliente.Direccion"/>
+                    <ValidationMessage For="@(() => Cliente.Direccion)" />
                 </div>
 
                 
@@ -48,7 +48,7 @@
                 </div>
             @* footer *@
             <div class="card-footer text-center mt-2">
-                <a href="/Tecnico" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
+                <a href="/Cliente" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
                 <button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
             </div>
         </div>
@@ -61,25 +61,25 @@
     
     @*Parametro para el índice de la página*@
     [Parameter] 
-    public int TecnicoId { get; set; }
+    public int ClienteId { get; set; }
     public string MensajeError { get; set; } = string.Empty;
 
-    Tecnicos Tecnicos { get; set; } = new Tecnicos();
+    Clientes Cliente { get; set; } = new Clientes();
 
     @*Buscar el técnico*@
     protected override async Task OnInitializedAsync() {
-        Tecnicos = await tecnicosService.Buscar(TecnicoId);
+        Cliente = await ClientesService.Buscar(ClienteId);
     }
 
     
-    @*Modificar técnico*@
+    @*Modificar Cliente*@
     public async Task Modificar()
     {
-        var paso = await tecnicosService.Guardar(Tecnicos);
+        var paso = await ClientesService.Guardar(Cliente);
 
         if (paso)
         {
-            navigationManager.NavigateTo("/Tecnico");
+            navigationManager.NavigateTo("/Cliente");
         }
     }
     

@@ -1,42 +1,39 @@
-﻿@page "/Tecnico/Create"
+@page "/Tecnico/Create"
 @inject TecnicosService tecnicoService
 @inject NavigationManager navigationManager
 
-<PageTitle>Registro de técnicos</PageTitle>
+<PageTitle>Registro de t&eacute;cnicos</PageTitle>
 
 <div>
     @if (!string.IsNullOrEmpty(MensajeError))
     {
-    <div class="alert alert-danger">@MensajeError</div>
+        <div class="alert alert-danger">@MensajeError</div>
     }
 </div>
 
-<EditForm Model="@Tecnico" OnSubmit="Guardar" FormName="prueba">
+<EditForm Model="@Tecnico" OnSubmit="Guardar" FormName="Tecnico">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    
-    
 
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header text-center">
-                <h5 class="card-title">Registro de técnicos</h5>
+                <h5 class="card-title">Registro de t&eacute;cnicos</h5>
             </div>
             <div class="card-body">
-                
                 @*TecnicoId*@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>TecnicoId</strong>
                     </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly/>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly />
                 </div>
 
                 @*Nombres*@
                 <div class="mb-3">
                     <label for="nombres">Nombres</label>
-                    <InputText class="form-control" @bind-Value="Tecnico.Nombres"/>
-                    <ValidationMessage For="@(() => Tecnico.Nombres)"/>
+                    <InputText class="form-control" @bind-Value="Tecnico.Nombres" />
+                    <ValidationMessage For="@(() => Tecnico.Nombres)" />
                 </div>
 
                 @*SalarioHora*@
@@ -44,7 +41,7 @@
                     <label class="form-label">
                         <strong>Salario x Hora</strong>
                     </label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.SalarioHora"/>
+                    <InputNumber class="form-control" @bind-Value="Tecnico.SalarioHora" />
                     <ValidationMessage For="@(() => Tecnico.SalarioHora)" />
                 </div>
             </div>
@@ -60,21 +57,16 @@
 </EditForm>
 
 @code {
-    
-    @*Instanciar técnico*@
     private Tecnicos Tecnico { get; set; } = new Tecnicos();
     public string MensajeError { get; set; } = string.Empty;
-    
-    @*Limpiar campos.*@
+
     public void Nuevo()
     {
         this.Tecnico = new Tecnicos();
     }
-    
-    @*Guardar un técnico*@
+
     private async Task Guardar()
     {
-        
         if (string.IsNullOrEmpty(Tecnico.Nombres))
         {
             MensajeError = "El campo Nombres no puede estar vacío.";
@@ -84,16 +76,14 @@
         var existe = await tecnicoService.ExisteTecnicoConNombre(Tecnico.Nombres);
         if (existe)
         {
-            MensajeError = "No pueden haber dos tecnicos con el mismo nombre";
+            MensajeError = "No pueden haber dos técnicos con el mismo nombre";
             return;
         }
-        
+
         var creado = await tecnicoService.Guardar(Tecnico);
         if (creado)
         {
             navigationManager.NavigateTo("/Tecnico");
         }
     }
-    
-   
 }

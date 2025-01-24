@@ -42,17 +42,18 @@
                 </tr>
                 </thead>
                 <tbody>
+                @*Clientes*@
                 @foreach (var cliente in ListaClientes)
                 {
-                <tr>
-                    <td>@cliente.ClienteId</td>
-                    <td>@cliente.Nombres</td>
-                    <td>@cliente.Tecnico.Nombres</td>
-                    <td class="text-center">
-                        <a class="btn btn-outline-primary bi bi-pencil-square" href="/Cliente/Edit/@cliente.ClienteId"></a>
-                    </td>
-                    <td><a class="btn btn-outline-danger bi bi-trash" href="/Cliente/Delete/@cliente.ClienteId"></a></td>
-                </tr>
+                    <tr>
+                        <td>@cliente.ClienteId</td>
+                        <td>@cliente.Nombres</td>
+                        <td>@cliente.Tecnico.Nombres</td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-primary bi bi-pencil-square" href="/Cliente/Edit/@cliente.ClienteId"></a>
+                        </td>
+                        <td><a class="btn btn-outline-danger bi bi-trash" href="/Cliente/Delete/@cliente.ClienteId"></a></td>
+                    </tr>
                 }
                 </tbody>
             </table>
@@ -93,6 +94,7 @@
                     .Contains(ValorFiltro.ToLower()));
         }
     }
+    @*Metodo Restablecer para restablecer filtros y clientes*@
     private async Task Restablecer()
     {
         ListaClientes = await ClientesService.Listar(c=>c.ClienteId>0);

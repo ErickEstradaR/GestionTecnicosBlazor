@@ -46,20 +46,23 @@
                     <InputText class="form-control" @bind-Value="Cliente.Direccion"/>
                 </div>
 
+                @*Fecha de Ingreso*@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>Fecha de Ingreso</strong>
                     </label>
                     <InputDate class="form-control" @bind-Value="Cliente.Fecha" readonly/>
                 </div>
-
+                
+                @*Rnc*@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>RNC</strong>
                     </label>
                     <InputText class="form-control" @bind-Value="Cliente.Rnc"/>
                 </div>
-
+                
+                @*Limite de Credito*@
                 <div class="mb-3">
                     <label class="form-label">
                         <strong>L&iacute;mite cr&eacute;dito</strong>
@@ -68,7 +71,7 @@
                 </div>
 
 
-
+                @*Técnico Encargado*@
                 <div class="mb-3">
                     <label>
                         <strong>T&eacute;cnico encargado</strong>
@@ -80,7 +83,6 @@
                         <option value="@tecnico.TecnicoId">@tecnico.Nombres</option>
                         }
                     </InputSelect>
-
                 </div>
 
                 @*Footer*@
@@ -107,9 +109,10 @@
     ListaTecnicos = await TecnicosService.Listar(c => c.TecnicoId > 0);
     }
 
+    @*Mensaje de Error*@
     public string MensajeError { get; set; } = string.Empty;
     
-
+    @*Método Modificar*@
     private async Task Modificar()
     {
 
@@ -137,12 +140,14 @@
     }
     }
 
+    @*Metodo que valida si existe Nombre*@
     public async Task<bool> ValidarNombre()
     {
     var existe = await ClientesService.ExisteNombre(Cliente.ClienteId, Cliente.Nombres);
     return existe;
     }
-
+    
+    @*Metodo que valida si existe Rnc*@
     public async Task<bool> ValidarRnc()
     {
     var existe=

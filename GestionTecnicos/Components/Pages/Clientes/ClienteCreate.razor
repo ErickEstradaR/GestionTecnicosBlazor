@@ -12,7 +12,7 @@
     <div class="alert alert-danger">@MensajeError</div>
     }
 </div>
-<EditForm Model="Cliente" OnSubmit="Guardar" FormName="Cliente">
+<EditForm Model="Cliente" OnValidSubmit="Guardar" FormName="Cliente">
     <DataAnnotationsValidator/>
     <div class="container">
         <div class="card shadow-lg">
@@ -130,7 +130,7 @@
         
         if (string.IsNullOrEmpty(Cliente.Nombres))
         {
-            Console.WriteLine("El campo Nombres no puede estar vacío.");
+            MensajeError="El campo Nombres no puede estar vacío.";
             return;
         }
 

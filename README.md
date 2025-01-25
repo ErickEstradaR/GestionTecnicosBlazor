@@ -1,4 +1,4 @@
-Entrega de asignación "Registro de técnicos".
+Entrega de asignaciónes Programación Aplicada 1.
 Erick Fedor Estrada Rosario #2022-0494.
 Estructura de Proyecto:
 

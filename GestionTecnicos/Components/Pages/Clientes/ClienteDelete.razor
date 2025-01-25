@@ -15,6 +15,7 @@
                 <h5><strong>Eliminar Cliente</strong></h5>
                 <h6 class="text-bg-danger">Está seguro de que desea eliminar el cliente?</h6>
             </div>
+            @*Datos del cliente*@
             <ul class="mt-4">
                 <li><strong>ClienteId: </strong>@cliente.ClienteId</li>
                 <li><strong>Nombres: </strong>@cliente.Nombres</li>
@@ -52,7 +53,7 @@
 
         if (eliminado==true)
         {
-            NavigationManager.NavigateTo("/Tecnico");
+            NavigationManager.NavigateTo("/Cliente");
         }
        
 

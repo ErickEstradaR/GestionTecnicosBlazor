@@ -9,6 +9,8 @@ public class Contexto : DbContext
     public DbSet<Tecnicos> Tecnicos { get; set; }
     public DbSet<Clientes> Clientes { get; set; }
     public DbSet<Ciudades> Ciudades { get; set; }
+    
+    public DbSet<Tickets> Tickets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

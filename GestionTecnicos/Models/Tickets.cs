@@ -31,11 +31,6 @@ public class Tickets
     
     public int TecnicoId { get; set; }
     
-    [ForeignKey("TecnicoId")] 
-    public Tecnicos Tecnico { get; set; } = null!;
-    
-    [ForeignKey("ClienteId")]
-    public Clientes Cliente { get; set; } = null!;
     
     //TicketId, Fecha, Prioridad, ClienteId,Asunto, Descripcion, TiempoInvertido, TecnicoId.
 }

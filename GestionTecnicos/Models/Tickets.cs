@@ -32,5 +32,5 @@ public class Tickets
     public int TecnicoId { get; set; }
     
     
-    //TicketId, Fecha, Prioridad, ClienteId,Asunto, Descripcion, TiempoInvertido, TecnicoId.
+    
 }

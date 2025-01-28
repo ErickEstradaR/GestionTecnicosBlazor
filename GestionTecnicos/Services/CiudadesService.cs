@@ -40,20 +40,20 @@ public class CiudadesService(IDbContextFactory<Contexto> DbFactory)
     public async Task<Ciudades?> Buscar(int ciudadId)
     {
         await using var Contexto = await DbFactory.CreateDbContextAsync();
-        return await Contexto.Ciudades.FirstOrDefaultAsync(c => ciudadId == ciudadId);
+        return await Contexto.Ciudades.FirstOrDefaultAsync(c => c.CiudadId == ciudadId);
     }
 
     public async Task<bool> Eliminar(int ciudadId)
 
     {
         await using var Contexto = await DbFactory.CreateDbContextAsync();
-        return await Contexto.Ciudades.AsNoTracking().Where(c => ciudadId == ciudadId).ExecuteDeleteAsync() >0;
+        return await Contexto.Ciudades.AsNoTracking().Where(c => c.CiudadId == ciudadId).ExecuteDeleteAsync() >0;
     }
 
     public async Task<bool> Existe(int ciudadId)
     {
         await using var Contexto = DbFactory.CreateDbContext();
-        return await Contexto.Ciudades.AnyAsync(c => ciudadId == ciudadId);
+        return await Contexto.Ciudades.AnyAsync(c => c.CiudadId == ciudadId);
     }
 
     public async Task<List<Ciudades>> Listar(Expression<Func<Ciudades, bool>> Criterio)

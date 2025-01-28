@@ -1,0 +1,68 @@
+@page "/Ciudad/Edit/{CiudadId:int}"
+@inject CiudadesService CiudadesService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Registro de Ciudades</PageTitle>
+
+<EditForm Model="@Ciudad" OnValidSubmit="Modificar">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card header text-center">
+                <h5 class="card-title">Editar Ciudad</h5>
+            </div>
+            
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>CiudadId</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Ciudad.CiudadId" readonly=""></InputNumber>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Nombre Ciudad</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Ciudad.NombreCiudad"></InputText>
+                </div>
+                
+            </div>
+            @*Footer*@
+            <div class="card-footer mt-2 text-center">
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+                <a href="/Ciudad" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+</EditForm>
+
+
+
+@code
+{
+    
+    @*Parametro para el índice de la página*@
+    [Parameter] 
+    public int CiudadId { get; set; }
+    
+    Ciudades Ciudad { get; set; } = new Ciudades();
+
+    private async Task Modificar()
+    {
+        var creado = await CiudadesService.Guardar(Ciudad);
+        if (creado)
+        {
+            navigationManager.NavigateTo("/Ciudad");
+        }
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Ciudad = await CiudadesService.Buscar(CiudadId);
+    }
+}

@@ -1,0 +1,57 @@
+@page "/Ciudad/Create"
+@inject CiudadesService CiudadesService
+@inject NavigationManager navigationManager
+
+<PageTitle>Registro de Ciudades</PageTitle>
+
+<EditForm Model="@Ciudad" OnValidSubmit="Guardar">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card header text-center">
+                <h5 class="card-title">Registrar Ciudad</h5>
+            </div>
+            
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>CiudadId</strong>
+                    </label>
+                    <InputNumber class="form-control" @bind-Value="Ciudad.CiudadId" readonly=""></InputNumber>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <strong>Nombre Ciudad</strong>
+                    </label>
+                    <InputText class="form-control" @bind-Value="Ciudad.NombreCiudad"></InputText>
+                </div>
+                
+            </div>
+            @*Footer*@
+            <div class="card-footer mt-2 text-center">
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+                <a href="/Ciudad" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+</EditForm>
+
+
+
+@code
+{
+    Ciudades Ciudad { get; set; } = new Ciudades();
+
+    private async Task Guardar()
+    {
+        var creado = await CiudadesService.Guardar(Ciudad);
+        if (creado)
+        {
+            navigationManager.NavigateTo("/Ciudad");
+        }
+    }
+}

@@ -61,7 +61,14 @@ public class CiudadesService(IDbContextFactory<Contexto> DbFactory)
         await using var Contexto = await DbFactory.CreateDbContextAsync();
         return await Contexto.Ciudades.AsNoTracking().Where(Criterio).ToListAsync();
     }
-    
+    public async Task<bool> ExisteCiudad(int CiudadId,string nombre)
+    {
+     
+        await using var Contexto = await DbFactory.CreateDbContextAsync();
+        return await Contexto.Ciudades
+            .AnyAsync(c => c.CiudadId != CiudadId
+                           && c.NombreCiudad.ToLower().Equals(nombre.ToLower()));
+    }
     
 }
     

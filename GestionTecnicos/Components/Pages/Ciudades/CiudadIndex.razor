@@ -1,0 +1,107 @@
+@page "/Ciudad"
+@inject CiudadesService CiudadesService
+@rendermode InteractiveServer
+
+<PageTitle>Registro de Ciudades</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card header">
+        </div>
+        <div class="card-body">
+            <h5 class="text-center">Consulta de Ciudades</h5>
+            <div class="row">
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="@Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="CiudadId">CiudadId</option>
+                        <option value="Nombre de Ciudad">NombreCiudad</option>
+                    </InputSelect>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
+                        </div>
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar"/>
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                        <a href="/Ciudad/Create" class="btn btn-success">
+                            <span class="bi bi-plus-square"></span> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead class="table table-striped text-black">
+                    <tr>
+                        <th>CiudadId</th>
+                        <th>Nombre Ciudad</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ciudad in ListaCiudades)
+                    {
+                        <tr>
+                            <td>@ciudad.CiudadId</td>
+                            <td>@ciudad.NombreCiudad</td>
+                            <td class="text-center">
+                                <a class="btn btn-outline-primary bi bi-pencil-square" href="/Ciudad/Edit/@ciudad.CiudadId"></a>
+                            </td>
+                            <td><a class="btn btn-outline-danger bi bi-trash" href="/Ciudad/Delete/@ciudad.CiudadId"></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    @*Lista de técnicos*@
+    public List<Ciudades> ListaCiudades { get; set; } = new List<Ciudades>();
+    
+    @*Filtros*@
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    
+    @*Listar todos los técnicos*@
+    protected override async Task OnInitializedAsync()
+    {
+
+        ListaCiudades = await CiudadesService.Listar(c => c.CiudadId > 0);
+    }
+
+    @*Buscar técnicos según el filtro*@
+    private async Task Buscar()
+    {
+        if (Filtro == "CiudadId")
+        {
+            if (int.TryParse(ValorFiltro, out int ciudadId))
+            {
+                ListaCiudades = await CiudadesService
+                    .Listar(c=>c.CiudadId==ciudadId);
+            }
+
+            
+        }
+        else if (ValorFiltro.Trim() != "" && Filtro == "Nombre de Ciudad")
+        {
+            ListaCiudades = await CiudadesService
+                .Listar(c=>c.NombreCiudad
+                    .Contains(ValorFiltro.ToLower()));
+        }
+    }
+    
+    @*Metodo Restablecer para restablecer filtros y clientes*@
+    private async Task Restablecer()
+    {
+        ListaCiudades = await CiudadesService.Listar(c=>c.CiudadId>0);
+        Filtro = string.Empty;
+        ValorFiltro = string.Empty;
+    }
+
+}

@@ -1,8 +1,16 @@
 @page "/Ciudad/Create"
+@using System.Runtime.CompilerServices
 @inject CiudadesService CiudadesService
 @inject NavigationManager navigationManager
 
 <PageTitle>Registro de Ciudades</PageTitle>
+
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+    <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
 
 <EditForm Model="@Ciudad" OnValidSubmit="Guardar">
     <div class="container">
@@ -45,13 +53,26 @@
 @code
 {
     Ciudades Ciudad { get; set; } = new Ciudades();
+    string MensajeError { get; set; } = string.Empty;
 
     private async Task Guardar()
     {
+        if (await ExisteCiudad())
+        {
+            MensajeError = "Ya existe una ciudad con ese nombre";
+            return;
+        }
         var creado = await CiudadesService.Guardar(Ciudad);
         if (creado)
         {
             navigationManager.NavigateTo("/Ciudad");
         }
+    }
+    
+    @*Metodo que valida si existe ciudad*@
+    public async Task<bool> ExisteCiudad()
+    {
+        var existe = await CiudadesService.ExisteCiudad(Ciudad.CiudadId, Ciudad.NombreCiudad);
+        return existe;
     }
 }

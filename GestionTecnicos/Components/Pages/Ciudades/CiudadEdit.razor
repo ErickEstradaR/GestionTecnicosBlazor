@@ -5,6 +5,13 @@
 
 <PageTitle>Registro de Ciudades</PageTitle>
 
+<div>
+    @if (!string.IsNullOrEmpty(MensajeError))
+    {
+    <div class="alert alert-danger">@MensajeError</div>
+    }
+</div>
+
 <EditForm Model="@Ciudad" OnValidSubmit="Modificar">
     <div class="container">
         <div class="card shadow-lg">
@@ -49,11 +56,18 @@
     @*Parametro para el índice de la página*@
     [Parameter] 
     public int CiudadId { get; set; }
+    public string MensajeError { get; set; } = string.Empty;
     
     Ciudades Ciudad { get; set; } = new Ciudades();
 
     private async Task Modificar()
     {
+
+        if (await ExisteCiudad())
+        {
+            MensajeError = "Ya existe una ciudad con ese nombre";
+            return;
+        }
         var creado = await CiudadesService.Guardar(Ciudad);
         if (creado)
         {
@@ -64,5 +78,12 @@
     protected override async Task OnInitializedAsync()
     {
         Ciudad = await CiudadesService.Buscar(CiudadId);
+    }
+    
+    @*Metodo que valida si existe ciudad*@
+    public async Task<bool> ExisteCiudad()
+    {
+        var existe = await CiudadesService.ExisteCiudad(Ciudad.CiudadId, Ciudad.NombreCiudad);
+        return existe;
     }
 }

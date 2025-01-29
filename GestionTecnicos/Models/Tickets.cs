@@ -13,8 +13,7 @@ public class Tickets
     public DateTime Fecha { get; set; } = DateTime.Now;
     
     [Required]
-    [Range(1,4,ErrorMessage = "la prioridad debe ser entre 1 a 4")]
-    public int Prioridad { get; set; }
+    public string Prioridad { get; set; }
     
     [Required]
     public int ClienteId { get; set; }
@@ -27,10 +26,11 @@ public class Tickets
     [StringLength(100)]
     public string Descripcion { get; set; }
     
-    public TimeSpan TiempoInvertido { get; set; } = TimeSpan.Zero;
-    
-    public int TecnicoId { get; set; }
-    
-    
-    
+    [Required]
+    public double TiempoInvertido { get; set; } 
+
+    [ForeignKey("ClienteId")] 
+    public Clientes Cliente { get; set; } = null!;
+
+
 }

@@ -41,7 +41,9 @@ public class TicketsService (IDbContextFactory<Contexto> DbFactory)
     public async Task<Tickets?> Buscar(int TicketId)
     {
         await using var Contexto = await DbFactory.CreateDbContextAsync();
-        return await Contexto.Tickets.FirstOrDefaultAsync(t => t.TicketId == TicketId);
+        return await Contexto.Tickets.Include(t=>t.Cliente)
+            .Include(t=>t.Cliente.Tecnico)
+            .FirstOrDefaultAsync(t => t.TicketId == TicketId);
     }
 
     public async Task<List<Tickets?>> Listar(Expression<Func<Tickets, bool>> criterio)

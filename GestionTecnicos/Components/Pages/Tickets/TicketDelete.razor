@@ -1,0 +1,60 @@
+@page "/Ticket/Delete/{TicketId:int}"
+@inject TicketsService TicketsServices
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5><strong>Datos del Ticket</strong></h5>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h5><strong>Eliminar Ticket</strong></h5>
+                <h6 class="text-bg-danger">Está seguro de que desea eliminar el Ticket?</h6>
+            </div>
+            @*Datos del Ticket*@
+            <ul class="mt-4">
+                <li><strong>TicketId: </strong>@Ticket.TicketId</li>
+                <li><strong>Cliente: </strong>@Ticket.Cliente?.Nombres</li>
+                <li><strong>T&eacute;nico Encargado: </strong>@Ticket.Cliente?.Tecnico?.Nombres</li>
+                <li><strong>Asunto: </strong>@Ticket.Asunto</li>
+                <li><strong>Descripci&oacute;n: </strong>@Ticket.Descripcion</li>
+                <li><strong>Fecha de Ticket: </strong>@Ticket.Fecha</li>
+                <li><strong>Tiempo invertido: </strong>@Ticket.TiempoInvertido horas</li>
+            </ul>
+        </div>
+        @*Footer*@
+        <div class="card-footer text-center">
+            <a href="/Ticket" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    @*Parametro para el índice de la página*@
+    [Parameter] public int TicketId { get; set; }
+    public Tickets Ticket { get; set; } = new Tickets();
+    
+    protected override async Task OnInitializedAsync()
+    {
+       Ticket  = await TicketsServices.Buscar(TicketId);
+    }
+    
+    @*Eliminar Ticket*@
+    public async Task Eliminar()
+    {
+        var eliminado = await TicketsServices.Eliminar(Ticket.TicketId);
+
+        if (eliminado==true)
+        {
+            NavigationManager.NavigateTo("/Ticket");
+        }
+       
+
+    }
+}

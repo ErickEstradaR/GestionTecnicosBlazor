@@ -84,7 +84,7 @@
 
                 @*Footer*@
                 <div class="card-footer mt-2 text-center">
-                    <button type="submit" class="btn btn-outline-success" @onclick="Nuevo">Nuevo</button>
+                    <button type="button" class="btn btn-outline-success" @onclick="Nuevo">Nuevo</button>
                     <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
                     <a href="/Cliente" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
                 </div>
@@ -138,6 +138,8 @@
         if (creado)
         {
             navigationManager.NavigateTo("/Cliente");
+            MensajeError = String.Empty;
+            
         }
     }
     

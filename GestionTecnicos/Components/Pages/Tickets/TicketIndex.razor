@@ -1,0 +1,109 @@
+@page "/Ticket"
+@inject TicketsService TicketsServices
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="text-center"><strong>Registro de Tickets</strong></h5>
+            <div class="row">
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="@Filtro">
+                        <option value="" selected disabled>Elija una opci&oacute;n</option>
+                        <option value="TicketId">TicketId</option>
+                        <option value="ClienteId">ClienteId</option>
+                        <option value="TecnicoId">TecnicoId</option>
+                    </InputSelect>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
+                        </div>
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar"/>
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                        <a href="/Ticket/Create" class="btn btn-success">
+                            <span class="bi bi-plus-square"></span> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+            <thead class="table table-striped text-black">
+            <tr>
+                <th>TicketId</th>
+                <th>Cliente</th>
+                <th>T&eacute;cnico Encargado</th>
+                <th>Fecha</th>
+                <th>Prioridad</th>
+                <th>Asunto</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var ticket in ListaTickets)
+            {
+                <tr>
+                    <td>@ticket.TicketId</td>
+                    <td>@ticket.Cliente.Nombres</td>
+                    <td>@ticket.Cliente.Tecnico.Nombres</td>
+                    <td>@ticket.Fecha.ToShortDateString()</td>
+                    <td>@ticket.Prioridad</td>
+                    <td>@ticket.Asunto</td>
+                    <td class="text-center">
+                        <a class="btn btn-outline-primary bi bi-pencil-square" href="/Ticket/Edit/@ticket.TicketId"></a>
+                    </td>
+                    <td><a class="btn btn-outline-danger bi bi-trash" href="/Ticket/Delete/@ticket.TicketId"></a></td>
+                </tr>
+            }
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public List<Tickets?> ListaTickets { get; set; } = new List<Tickets>();
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+    
+    private async Task Buscar()
+    {
+        if (Filtro == "TicketId")
+        {
+            if (int.TryParse(ValorFiltro, out int ticketId))
+            {
+                ListaTickets = await TicketsServices
+                    .Listar(t=>t.TicketId==ticketId);
+            }
+
+            
+        }
+        else if (Filtro == "ClienteId")
+        {
+            if (int.TryParse(ValorFiltro, out int clienteId))
+            {
+                ListaTickets = await TicketsServices.Listar(t => t.ClienteId == clienteId);
+            }
+        }
+    }
+    
+    @*Metodo Restablecer para restablecer filtros y Tickets*@
+    private async Task Restablecer()
+    {
+        ListaTickets = await TicketsServices.Listar(t=>t.TicketId>0);
+        Filtro = string.Empty;
+        ValorFiltro = string.Empty;
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+    
+        ListaTickets = await TicketsServices.Listar(t=>t.TicketId > 0);
+    
+    }
+}

@@ -8,7 +8,7 @@ public class Clientes
 {
     [Key]
     public int ClienteId { get; set; }
-    
+    [Required]
     public int TecnicoId { get; set; }
     
     public DateTime Fecha { get; set; } = DateTime.Now;

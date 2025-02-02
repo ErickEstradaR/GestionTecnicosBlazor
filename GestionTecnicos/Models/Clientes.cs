@@ -21,6 +21,7 @@ public class Clientes
     
     [Required(ErrorMessage = "El campo Rnc es requerido.")]
     [StringLength(11,MinimumLength = 9)]
+    [RegularExpression(@"^\d+$", ErrorMessage = "El RNC solo puede contener números.")]
     public string Rnc { get; set; } = null!;
     
     [Range(1, double.MaxValue, ErrorMessage = "El monto no puede ser menor a 1")]

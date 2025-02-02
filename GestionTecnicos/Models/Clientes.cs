@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestionTecnicos.Models;
-using System.ComponentModel.DataAnnotations;
+
 
 public class Clientes
 {

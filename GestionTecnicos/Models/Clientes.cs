@@ -11,6 +11,9 @@ public class Clientes
     [Required]
     public int TecnicoId { get; set; }
     
+    [Required]
+    public int CiudadId { get; set; }
+    
     public DateTime Fecha { get; set; } = DateTime.Now;
 
     [Required(ErrorMessage = "El campo Nombres es requerido.")]
@@ -29,6 +32,9 @@ public class Clientes
 
     [ForeignKey("TecnicoId")] 
     public Tecnicos Tecnico { get; set; } = null!;
+    
+    [ForeignKey("CiudadId")]
+    public Ciudades Ciudad { get; set; } = null!;
 
 
 }

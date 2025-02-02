@@ -35,7 +35,7 @@ public class ClientesService(IDbContextFactory<Contexto> DbFactory)
     public async Task<Clientes?> Buscar(int ClienteId)
     {
         await using var Contexto = await DbFactory.CreateDbContextAsync();
-        return await Contexto.Clientes.Include(c => c.Tecnico).FirstOrDefaultAsync(c => c.ClienteId == ClienteId);
+        return await Contexto.Clientes.Include(c => c.Tecnico).Include(c=>c.Ciudad).FirstOrDefaultAsync(c => c.ClienteId == ClienteId);
     }
 
     public async Task<bool> Eliminar(int ClienteId)

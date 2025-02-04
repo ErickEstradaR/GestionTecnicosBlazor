@@ -1,0 +1,55 @@
+@page "/Sistema/Delete/{SistemaId:int}"
+@inject SistemasService SistemaService
+@inject NavigationManager nav
+@rendermode InteractiveServer
+
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5><strong>Datos del Sistema</strong></h5>
+        </div>
+    
+        @*Body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h5><strong>Eliminar Sistema</strong></h5>
+                <h6 class="text-bg-danger">Está seguro de que desea eliminar el Sistema?</h6>
+            </div>
+            
+            @*Datos del Sistema*@
+            <ul class="mt-4">
+                <li><strong>SistemaId: </strong>@Sistema.SistemaId</li>
+                <li><strong>Descripción: </strong>@Sistema.Descripcion</li>
+                <li><strong>Complejidad: </strong>@Sistema.Complejidad</li>
+            </ul>
+        </div>
+        
+        @*Footer*@
+        <div class="card-footer text-center">
+            <a href="/Ticket" class="btn btn-primary"> <span class="bi bi-arrow-left"></span> Volver</a>
+            <button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+        </div>
+    </div>
+</div>
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+        Sistema = await SistemaService.Buscar(SistemaId);
+    }
+    [Parameter]
+    public int SistemaId { get; set; }
+    private Sistemas Sistema { get; set; } = new Sistemas();
+    
+    public async Task Eliminar()
+    {
+        var eliminado = await SistemaService.Eliminar(Sistema.SistemaId);
+        if (eliminado)
+        {
+            nav.NavigateTo("/Sistema");
+        }
+    }
+}

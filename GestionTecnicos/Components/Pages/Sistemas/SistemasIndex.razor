@@ -1,0 +1,76 @@
+@page "/Sistema"
+@using Microsoft.AspNetCore.Mvc
+@inject SistemasService sistemaService
+@inject NavigationManager nav 
+@rendermode InteractiveServer
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="text-center"><strong>Registro de sistemas</strong></h5>
+            <div class="row">
+                <div class="col-3">
+                    <InputSelect class="form-select" @bind-Value="@Filtro">
+                        <option value="" selected-disabled>Elija una opci&oacute;n</option>
+                        <option value="SistemaId">SistemaId</option>
+                    </InputSelect>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Restablecer"></button>
+                        </div>
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar"/>
+                        <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
+                        <a href="/Sistema/Create" class="btn btn-success">
+                            <span class="bi bi-plus-square"></span> Crear
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead class="table table-striped text-black">
+                <th>SistemaId</th>
+                <th>Descripci&oacute;n</th>
+                <th>Complejidad</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+                </thead>
+                <tbody>
+                @foreach (var sistema in ListaSistemas)
+                {
+                    <tr>
+                        <td>@sistema.SistemaId</td>
+                        <td>@sistema.Descripcion</td>
+                        <td>@sistema.Complejidad</td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-primary bi bi-pencil-square" href="/Sistema/Edit/@sistema.SistemaId"></a>
+                        </td>
+                        <td><a class="btn btn-outline-danger bi bi-trash" href="/Sistema/Delete/@sistema.SistemaId"></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    public List<Sistemas> ListaSistemas { get; set; } = new List<Sistemas>();
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+
+    public async Task Restablecer()
+    {
+        Filtro = string.Empty;
+    }
+
+    private async Task Buscar()
+    {
+        
+    }
+}

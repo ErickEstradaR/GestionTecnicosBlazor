@@ -62,10 +62,10 @@ public class SistemasService (IDbContextFactory<Contexto> DbFactory)
 /// </summary>
 /// <param name="SistemaId">Id del sistema a buscar</param>
 /// <returns>Un valor booleano que indica si el sistema fue encontrado</returns>
-    public async Task<bool> Buscar(int SistemaId)
+    public async Task<Sistemas?> Buscar(int SistemaId)
     {
         await using var Contexto = await DbFactory.CreateDbContextAsync();
-        return await Contexto.Sistemas.AsNoTracking().AnyAsync(s => s.SistemaId == SistemaId);
+        return await Contexto.Sistemas.AsNoTracking().FirstOrDefaultAsync(s => s.SistemaId == SistemaId);
     }
 /// <summary>
 /// Elimina un sistema

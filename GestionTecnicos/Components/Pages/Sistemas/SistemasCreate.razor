@@ -1,0 +1,71 @@
+@page "/Sistema/Create"
+@inject SistemasService SistemasService
+@inject NavigationManager nav
+@rendermode InteractiveServer
+
+<PageTitle>Crear Sistema</PageTitle>
+
+@if (!string.IsNullOrEmpty(MensajeError))
+{
+    <div class="alert-danger">
+        @MensajeError
+    </div>
+}
+
+<EditForm Model="Sistema" OnValidSubmit="Guardar">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h5 class="card-title">Registro de Sistemas</h5>
+        </div>
+        
+        <div class="card-body">
+            
+            <div class="mb-3">
+                <label>
+                    <strong>SistemaId</strong>
+                    <InputNumber class="form-control" @bind-Value="Sistema.SistemaId" readonly/>
+                </label>
+                
+            </div>
+            
+            <div class="mb-3">
+                <label>
+                    <strong>Descripci&oacute;n</strong>
+                </label>
+                <InputText class="form-control" @bind-Value="Sistema.Descripcion"/>
+            </div>
+            
+            <div class="mb-3">
+                <label>
+                    <strong>Complejidad</strong>
+                    <InputNumber class="form-control" @bind-Value="Sistema.Complejidad"/>
+                </label>
+            </div>
+            
+        </div>
+        @*Footer*@
+        <div class="card-footer mt-2 text-center">
+            <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+            <a href="/Sistema" class="btn btn-secondary"><span class="bi bi-arrow-left"></span> Retroceder</a>
+        </div>
+    </div>
+</div>
+</EditForm>
+@code
+{
+    public Sistemas Sistema { get; set; } = new Sistemas();
+    public string MensajeError { get; set; } = String.Empty;
+
+    private async Task Guardar()
+    {
+        var creado = await SistemasService.Guardar(Sistema);
+        if (creado)
+        {
+            nav.NavigateTo("/Sistema");
+        }
+    }
+}
